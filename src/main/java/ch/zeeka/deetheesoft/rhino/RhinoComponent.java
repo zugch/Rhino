@@ -1,6 +1,7 @@
 package ch.zeeka.deetheesoft.rhino;
 
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
@@ -12,66 +13,42 @@ import javafx.util.Duration;
 
 public class RhinoComponent extends Component {
 
-    public static final int X = 0;
-    public static final int Y = 1;
-
-    public static final int FRAMES_PER_ROW = 4;
-    public static final int FRAME_WIDTH = 50;
-    public static final int  FRAME_HEIGHT = 50;
-
-    private int[] speed = {0,0};
+    private int speed = 0;
 
     @Override
     public void onAdded() {
-        entity.getTransformComponent().setScaleOrigin(new Point2D(FRAME_WIDTH/2,FRAME_HEIGHT/2));
-        entity.getViewComponent().addChild(new Rectangle(FRAME_WIDTH, FRAME_HEIGHT, Color.GRAY));
+        entity.getTransformComponent().setScaleOrigin(entity.getCenter());
     }
 
     @Override
     public void onUpdate(double tpf) {
-        entity.translateX(speed[X]*tpf);
-        entity.translateY(speed[Y]*tpf);
 
-        if(speed[X] != 0)
+        Vec2 dir = Vec2.fromAngle(entity.getRotation() - 90)
+                .mulLocal(speed);
+        entity.translate(dir);
+
+        if(speed != 0)
         {
-            speed[X] = (int)(speed[X]*0.9);
+            speed = (int)(speed*0.9);
 
-            if(FXGLMath.abs(speed[X]) < 1){
-                speed[X] = 0;
-            }
-        }
-
-        if(speed[Y] != 0)
-        {
-            speed[Y] = (int)(speed[Y]*0.9);
-
-            if(FXGLMath.abs(speed[Y]) < 1){
-                speed[Y] = 0;
+            if(FXGLMath.abs(speed) < 1){
+                speed = 0;
             }
         }
     }
 
-    public void moveRight()
+    public void move()
     {
-        speed[X] = 150;
-        getEntity().setScaleX(1);
+        speed = 10;
     }
 
-    public void moveLeft()
+    public void rotateLeft()
     {
-        speed[X] = -150;
-        getEntity().setScaleX(-1);
+        entity.rotateBy(-5);
     }
 
-    public void moveDown()
+    public void rotateRight()
     {
-        speed[Y] = 150;
-        getEntity().setScaleY(1);
-    }
-
-    public void moveUp()
-    {
-        speed[Y] = -150;
-        getEntity().setScaleY(-1);
+        entity.rotateBy(5);
     }
 }

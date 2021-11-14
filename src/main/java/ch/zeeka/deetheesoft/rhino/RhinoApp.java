@@ -7,6 +7,8 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import javafx.scene.input.KeyCode;
 
+import static com.almasb.fxgl.dsl.FXGL.*;
+
 public class RhinoApp extends GameApplication {
 
     private Entity rhino;
@@ -21,40 +23,32 @@ public class RhinoApp extends GameApplication {
 
     @Override
     protected void initGame() {
-        rhino = FXGL.entityBuilder()
-                .at(200, 200)
-                .with(new RhinoComponent())
-                .buildAndAttach();
+        getGameWorld().addEntityFactory(new RhinoFactory());
+
+        rhino = spawn("rhino", 200,200);
     }
 
     @Override
     protected void initInput() {
-        FXGL.getInput().addAction(new UserAction("Right") {
+        getInput().addAction(new UserAction("Move") {
             @Override
             protected void onAction() {
-                rhino.getComponent(RhinoComponent.class).moveRight();
+                rhino.getComponent(RhinoComponent.class).move();
             }
-        }, KeyCode.D);
+        }, KeyCode.UP);
 
-        FXGL.getInput().addAction(new UserAction("Left") {
+        getInput().addAction(new UserAction("Rotate right") {
             @Override
             protected void onAction() {
-                rhino.getComponent(RhinoComponent.class).moveLeft();
+                rhino.getComponent(RhinoComponent.class).rotateRight();
             }
-        }, KeyCode.A);
+        }, KeyCode.RIGHT);
 
-        FXGL.getInput().addAction(new UserAction("Up") {
+        getInput().addAction(new UserAction("Rotate left") {
             @Override
             protected void onAction() {
-                rhino.getComponent(RhinoComponent.class).moveUp();
+                rhino.getComponent(RhinoComponent.class).rotateLeft();
             }
-        }, KeyCode.W);
-
-        FXGL.getInput().addAction(new UserAction("Down") {
-            @Override
-            protected void onAction() {
-                rhino.getComponent(RhinoComponent.class).moveDown();
-            }
-        }, KeyCode.S);
+        }, KeyCode.LEFT);
     }
 }
