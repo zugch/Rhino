@@ -9,6 +9,9 @@ import com.almasb.fxgl.entity.component.Component;
  */
 public class RhinoComponent extends Component {
 
+    public static final int FULL_SPEED = 2;
+    public static final int ROTATE_ANGLE = 2;
+
     private int speed = 0;
 
     @Override
@@ -35,16 +38,16 @@ public class RhinoComponent extends Component {
 
     public void move()
     {
-        speed = 10;
+        speed = FULL_SPEED;
     }
 
     public void rotateLeft()
     {
-        entity.rotateBy(-5);
+        entity.rotateBy(-ROTATE_ANGLE);
     }
 
     public void rotateRight()
     {
-        entity.rotateBy(5);
+        entity.rotateBy(ROTATE_ANGLE);
     }
 }
