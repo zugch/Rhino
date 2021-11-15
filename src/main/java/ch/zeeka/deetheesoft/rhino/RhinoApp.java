@@ -41,8 +41,6 @@ public class RhinoApp extends GameApplication {
         run(() -> {
             spawn("food", FXGLMath.randomPoint(new Rectangle2D(0,0, getAppWidth(), getAppHeight())));
         }, Duration.seconds(4));
-
-        //Entity food = spawn("food", 400, 300);
     }
 
     @Override
