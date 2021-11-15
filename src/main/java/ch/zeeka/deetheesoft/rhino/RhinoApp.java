@@ -2,13 +2,15 @@ package ch.zeeka.deetheesoft.rhino;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import javafx.scene.input.KeyCode;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
+/**
+ * @author Christian Züger (https://github.com/zugch)
+ */
 public class RhinoApp extends GameApplication {
 
     private Entity rhino;

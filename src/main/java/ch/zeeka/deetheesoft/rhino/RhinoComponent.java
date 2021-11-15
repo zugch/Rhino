@@ -2,15 +2,11 @@ package ch.zeeka.deetheesoft.rhino;
 
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.core.math.Vec2;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.texture.AnimatedTexture;
-import com.almasb.fxgl.texture.AnimationChannel;
-import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
+/**
+ * @author Christian Züger (https://github.com/zugch)
+ */
 public class RhinoComponent extends Component {
 
     private int speed = 0;
