@@ -64,7 +64,7 @@ public class RhinoApp extends GameApplication {
             }
         }, KeyCode.UP);
 
-        getInput().addAction(new UserAction("MoveBackwards") {
+        getInput().addAction(new UserAction("Move backwards") {
             @Override
             protected void onAction() {
                 rhino.getComponent(RhinoComponent.class).moveBackwards();
