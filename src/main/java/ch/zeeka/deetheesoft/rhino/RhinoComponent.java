@@ -62,6 +62,11 @@ public class RhinoComponent extends Component {
         speed = FULL_SPEED;
     }
 
+    public void moveBackwards()
+    {
+        speed = -(FULL_SPEED / 2);
+    }
+
     public void rotateLeft()
     {
         entity.rotateBy(-ROTATE_ANGLE);

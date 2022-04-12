@@ -64,6 +64,13 @@ public class RhinoApp extends GameApplication {
             }
         }, KeyCode.UP);
 
+        getInput().addAction(new UserAction("Move backwards") {
+            @Override
+            protected void onAction() {
+                rhino.getComponent(RhinoComponent.class).moveBackwards();
+            }
+        }, KeyCode.DOWN);
+
         getInput().addAction(new UserAction("Rotate right") {
             @Override
             protected void onAction() {
