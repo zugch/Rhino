@@ -51,11 +51,11 @@ public class RhinoApp extends GameApplication {
     @Override
     protected void initUI() {
         // food score
-        Text textFoodScore = getUIFactory().newText("", Color.BLACK, 22);
+        Text textFoodScore = getUIFactoryService().newText("", Color.BLACK, 22);
         textFoodScore.setTextAlignment(TextAlignment.RIGHT);
         textFoodScore.setTranslateX(getAppWidth()-30);
         textFoodScore.setTranslateY(50);
-        textFoodScore.textProperty().bind(getGameState().intProperty(FOOD_SCORE).asString());
+        textFoodScore.textProperty().bind(getWorldProperties().intProperty(FOOD_SCORE).asString());
         getGameScene().addUINodes(textFoodScore);
 
         // energy level
@@ -73,7 +73,7 @@ public class RhinoApp extends GameApplication {
         pbEnergyLevel.setMaxValue(100);
         pbEnergyLevel.setTranslateX(5+25+5);
         pbEnergyLevel.setTranslateY(getAppHeight()-50);
-        pbEnergyLevel.currentValueProperty().bind(getGameState().intProperty(ENERGY_LEVEL));
+        pbEnergyLevel.currentValueProperty().bind(getWorldProperties().intProperty(ENERGY_LEVEL));
         getGameScene().addUINodes(pbEnergyLevel);
     }
 
@@ -113,10 +113,10 @@ public class RhinoApp extends GameApplication {
         onCollisionBegin(EntityType.RHINO, EntityType.FOOD, (rhino, food) -> {
             FXGL.play("nom.wav");
             food.removeFromWorld();
-            getGameState().increment(FOOD_SCORE, +1);
-            if(getGameState().getInt(ENERGY_LEVEL) < MAX_ENERGY_LEVEL)
+            getWorldProperties().increment(FOOD_SCORE, +1);
+            if(getWorldProperties().getInt(ENERGY_LEVEL) < MAX_ENERGY_LEVEL)
             {
-                getGameState().increment(ENERGY_LEVEL, +1);
+                getWorldProperties().increment(ENERGY_LEVEL, +1);
             }
         });
     }
