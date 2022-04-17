@@ -3,6 +3,7 @@ package ch.zeeka.deetheesoft.rhino;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import javafx.geometry.Rectangle2D;
@@ -82,6 +83,7 @@ public class RhinoApp extends GameApplication {
     @Override
     protected void initPhysics() {
         onCollisionBegin(EntityType.RHINO, EntityType.FOOD, (rhino, food) -> {
+            FXGL.play("nom.wav");
             food.removeFromWorld();
             getGameState().increment(FOOD_SCORE, +1);
         });
