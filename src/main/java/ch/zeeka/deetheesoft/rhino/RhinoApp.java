@@ -7,6 +7,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.ui.ProgressBar;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -14,7 +15,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -106,6 +110,32 @@ public class RhinoApp extends GameApplication {
                 rhino.getComponent(RhinoComponent.class).rotateLeft();
             }
         }, KeyCode.LEFT);
+
+        getInput().addAction(new UserAction("Poo") {
+
+            Date start;
+
+            @Override
+            protected void  onActionBegin() {
+                start = new Date();
+            }
+
+            @Override
+            protected void onActionEnd() {
+                Date end = new Date();
+                var diffMillis = getDateDiff(start, end, TimeUnit.MILLISECONDS);
+
+                double centerX = rhino.getCenter().getX();
+                double centerY = rhino.getCenter().getY();
+
+                double rotationRad = Math.toRadians(rhino.getRotation() % 360);
+
+                double diffX = (-1) * Math.sin(rotationRad) * (RhinoComponent.RHINO_HEIGHT / 2.0);
+                double diffY = Math.cos(rotationRad) * (RhinoComponent.RHINO_HEIGHT / 2.0);
+
+                spawn("poo", new Point2D(centerX + diffX, centerY + diffY));
+            }
+        }, KeyCode.SPACE);
     }
 
     @Override
@@ -125,5 +155,18 @@ public class RhinoApp extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put(FOOD_SCORE, 0);
         vars.put(ENERGY_LEVEL, 0);
+    }
+
+    /**
+     * Get a diff between two dates
+     * @param date1 the oldest date
+     * @param date2 the newest date
+     * @param timeUnit the unit in which you want the diff
+     * @return the diff value, in the provided unit
+     * https://stackoverflow.com/a/10650881/928423
+     */
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 }

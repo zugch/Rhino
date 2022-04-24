@@ -25,6 +25,7 @@ public class RhinoFactory implements EntityFactory {
                 .bbox(new HitBox(BoundingShape.box(RhinoComponent.RHINO_WIDTH, RhinoComponent.RHINO_HEIGHT)))
                 .with(new RhinoComponent())
                 .collidable()
+                .zIndex(Constants.Z_INDEX_RHINO)
                 .build();
     }
 
@@ -34,6 +35,17 @@ public class RhinoFactory implements EntityFactory {
                 .type(EntityType.FOOD)
                 .viewWithBBox("food.png")
                 .collidable()
+                .zIndex(Constants.Z_INDEX_FOOD)
+                .build();
+    }
+
+    @Spawns("poo")
+    public Entity NewPoo(SpawnData data) {
+        return entityBuilder(data)
+                .type(EntityType.POO)
+                .viewWithBBox(new Circle(15, Color.BROWN))
+                //.collidable()
+                .zIndex(Constants.Z_INDEX_POO)
                 .build();
     }
 }
