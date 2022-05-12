@@ -43,7 +43,7 @@ public class RhinoFactory implements EntityFactory {
     public Entity NewPoo(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.POO)
-                .viewWithBBox(new Circle(15, Color.BROWN))
+                .viewWithBBox(new Circle(Constants.POO_SIZE, Color.BROWN))
                 //.collidable()
                 .zIndex(Constants.Z_INDEX_POO)
                 .build();

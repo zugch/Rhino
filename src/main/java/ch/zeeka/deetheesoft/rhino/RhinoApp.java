@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -113,28 +114,33 @@ public class RhinoApp extends GameApplication {
 
         getInput().addAction(new UserAction("Poo") {
 
-            Date start;
+            Date lastPoo = null;
 
             @Override
-            protected void  onActionBegin() {
-                start = new Date();
+            protected void onAction() {
+                if(lastPoo == null)
+                {
+                    lastPoo = new Date();
+                    doPoo();
+                }
+                else
+                {
+                    Date now = new Date();
+                    var diffMillis = getDateDiff(lastPoo, now, TimeUnit.MILLISECONDS);
+
+                    if(diffMillis > Constants.POO_PAUSE_MS)
+                    {
+                        lastPoo = new Date();
+                        doPoo();
+                    }
+                }
             }
 
             @Override
             protected void onActionEnd() {
-                Date end = new Date();
-                var diffMillis = getDateDiff(start, end, TimeUnit.MILLISECONDS);
-
-                double centerX = rhino.getCenter().getX();
-                double centerY = rhino.getCenter().getY();
-
-                double rotationRad = Math.toRadians(rhino.getRotation() % 360);
-
-                double diffX = (-1) * Math.sin(rotationRad) * (RhinoComponent.RHINO_HEIGHT / 2.0);
-                double diffY = Math.cos(rotationRad) * (RhinoComponent.RHINO_HEIGHT / 2.0);
-
-                spawn("poo", new Point2D(centerX + diffX, centerY + diffY));
+                lastPoo = null;
             }
+
         }, KeyCode.SPACE);
     }
 
@@ -155,6 +161,23 @@ public class RhinoApp extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
         vars.put(FOOD_SCORE, 0);
         vars.put(ENERGY_LEVEL, 0);
+    }
+
+    private void doPoo()
+    {
+        double centerX = rhino.getCenter().getX();
+        double centerY = rhino.getCenter().getY();
+
+        double rotationRad = Math.toRadians(rhino.getRotation() % 360);
+
+        double diffX = (-1) * Math.sin(rotationRad) * (RhinoComponent.RHINO_HEIGHT / 2.0);
+        double diffY = Math.cos(rotationRad) * (RhinoComponent.RHINO_HEIGHT / 2.0);
+
+        // spread
+        double spreadX = new Random().nextInt(Constants.POO_SPREAD+Constants.POO_SPREAD)-Constants.POO_SPREAD;
+        double spreadY = new Random().nextInt(Constants.POO_SPREAD+Constants.POO_SPREAD)-Constants.POO_SPREAD;
+
+        spawn("poo", new Point2D(centerX + diffX + spreadX, centerY + diffY+spreadY));
     }
 
     /**
